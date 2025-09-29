@@ -1,0 +1,105 @@
+{
+  "lrn": "UniqueReference123",
+  "declarationDate": "2022-05-17T00:17:33Z",
+  "dateAndTimeOfPresentation": "2022-05-19T00:18:33Z",
+  "previousDocument": [
+    {
+      "previousMRN": "23XI9876AB88901AT9",
+      "type": "N355",
+      "goodsItemIdentifier": 189,
+      "consignmentMasterLevel": {
+        "receptacle": [
+          {
+            "receptacleIdentificationNumber": "ABCDEFGHIJKLMNOPQRSTUVWX"
+          }
+        ],
+        "consignmentHouseLevel": [
+          {
+            "transportDocumentHouseLevel": {
+              "referenceNumber": "Ref1021",
+              "type": "N741"
+            }
+          }
+        ],
+        "transportDocumentMasterLevel": {
+          "referenceNumber": "Ref1020",
+          "type": "N741"
+        },
+        "transportEquipment": [
+          {
+            "containerIdentificationNumber": "BICU1234565"
+          }
+        ]
+      }
+    }
+  ],
+  "declarant": {
+    "name": "Free text field",
+    "identificationNumber": "XI123456789120000",
+    "address": {
+      "street": "Street Name",
+      "streetAdditionalLine": "ABCDE",
+      "number": "1",
+      "poBox": "BX1",
+      "subDivision": "ABCDEFGHIJKLMN",
+      "country": "DE",
+      "postCode": "ABC123",
+      "city": "Berlin"
+    },
+    "communication": [
+      {
+        "identifier": "example@examplemail.com",
+        "type": "EM"
+      }
+    ]
+  },
+  "representative": {
+    "name": "Representative Name",
+    "identificationNumber": "XI12345678912089",
+    "status": 3,
+    "communication": [
+      {
+        "identifier": "example@examplemail.com",
+        "type": "EM"
+      },
+      {
+        "identifier": "01567289100",
+        "type": "TE"
+      }
+    ]
+  },
+  "locationOfGoods": {
+    "typeOfLocation": "A",
+    "qualifierOfIdentification": "U",
+    "unloCode": "GBBEL123",
+    "customsOffice": {
+      "referenceNumber": "GB123000"
+    },
+    "gnss": {
+      "latitude": "51.50079",
+      "longitude": "-0.12472"
+    },
+    "economicOperator": {
+      "identificationNumber": "XITG0003456734567",
+      "authorisationNumber": "ABCDEFGHIJKLMNOPQRSTUVWX",
+      "additionalIdentifier": "ABCD"
+    },
+    "address": {
+      "country": "DE",
+      "city": "Munich",
+      "streetAndNumber": "5 Franz Strasse",
+      "postCode": "80939"
+    },
+    "postcodeAddress": {
+      "postCode": "80939",
+      "number": "5",
+      "country": "DE"
+    }
+  },
+  "personPresentingTheGoods": {
+    "identificationNumber": "XI12345678912089"
+  },
+  "customsOfficeOfPresentation": {
+    "referenceNumber": "GB123000"
+  }
+}
