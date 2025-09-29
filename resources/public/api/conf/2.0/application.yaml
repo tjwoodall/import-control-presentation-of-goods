@@ -1,0 +1,538 @@
+openapi: "3.0.3"
+info:
+  title: ICS2 Presentation Of Goods
+  description: >-
+  contact: {}
+  version: '2.0'
+servers:
+  - url: https://test-api.service.hmrc.gov.uk/customs/import-control/presentation-of-goods
+    description: Sandbox
+    variables: {}
+  - url: https://api.service.hmrc.gov.uk/customs/import-control/presentation-of-goods
+    description: Production
+    variables: {}
+paths:
+  /:
+    post:
+      tags:
+      - import-control-presentation-of-goods-api
+      summary: Submit a Presentation of Goods
+      description: >
+        This API allows the user to submit a Presentation Notification.
+      operationId: SubmitaPresentationofGoods
+      parameters:
+      - name: Accept
+        in: header
+        description: Specifies the version of the API that you want to call. See [versioning](/api-documentation/docs/reference-guide#versioning).
+        required: true
+        style: simple
+        schema:
+          type: string
+          example: application/vnd.hmrc.2.0+json
+      - name: Content-Type
+        in: header
+        description: Specifies the format of the request body. Must be "application/json".
+        style: simple
+        schema:
+          type: string
+          example: application/json
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/ICS2Presentationnotificationversion2.0'
+              - example:
+                $ref: './examples/presentation-notification-request.json'
+            examples:
+              "Example 1":
+                externalValue: './examples/presentation-notification-request.json'
+              "Example 2":
+                description: Air freight N740 example
+                externalValue: './examples/pog-notification-air-freight-N740.json'
+        required: true
+      responses:
+        '202':
+          description: ''
+          headers: {}
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/BoxId'
+              example:
+                boxId: 50dca3fc-c37c-4f03-b719-63571333624c
+        '400':
+          description: ''
+          headers: {}
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/errorResponse'
+              examples:
+                invalidJson:
+                  description: The JSON payload does not conform with the JSON schema
+                  value:
+                    code: SCHEMA_ERROR
+                    message: The JSON request was not conformant with the schema. Schematic errors are detailed in the errors property below.
+                    errors: [
+                      {
+                        code: "DATETIME",
+                        message: "declarationDate: 2023-05-17 is an invalid date-time",
+                        path: "/declarationDate"
+                      },
+                      {
+                        code: "MAXLENGTH",
+                        message: "previousDocument[0].previousMRN: may only be 18 characters long",
+                        path: "/previousDocument[0]/previousMRN"
+                      }
+                    ]
+      deprecated: false
+      security:
+        - userRestricted:
+            - write:import-control-system-2
+components:
+  securitySchemes:
+    userRestricted:
+      type: oauth2
+      description: |
+        HMRC supports OAuth 2.0 for authenticating user restricted API requests using an OAuth 2.0 Bearer Token in the AUTHORIZATION header.
+        See https://developer.service.hmrc.gov.uk/api-documentation/docs/authorisation/user-restricted-endpoints for details.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.service.hmrc.gov.uk/oauth/authorize
+          tokenUrl: https://api.service.hmrc.gov.uk/oauth/token
+          refreshUrl: https://api.service.hmrc.gov.uk/oauth/refresh
+          scopes:
+            write:import-control-system-2: import-control-system-2
+  schemas:
+    errorResponse:
+      title: errorResponse
+      required:
+      - code
+      type: object
+      properties:
+        code:
+          type: string
+    Carrier:
+      title: Carrier
+      required:
+      - identificationNumber
+      type: object
+      description: |
+        The carrier of the goods.
+        This object **must** be present if one or more house-level transport documents of type N703 or N740 are included in the presentation notification.
+        Otherwise, this object is optional.
+      properties:
+        identificationNumber:
+          maxLength: 17
+          minLength: 1
+          type: string
+          description: The carrier identification number.
+    CommunicationType:
+      title: CommunicationType
+      required:
+      - identifier
+      - type
+      type: object
+      properties:
+        identifier:
+          maxLength: 512
+          minLength: 1
+          type: string
+        type:
+          maxLength: 3
+          minLength: 1
+          type: string
+    ConsignmentHouseLevelType:
+      title: ConsignmentHouseLevelType
+      required:
+      - transportDocumentHouseLevel
+      type: object
+      properties:
+        transportDocumentHouseLevel:
+          $ref: '#/components/schemas/TransportDocumentReferenceType'
+    ConsignmentMasterLevel:
+      title: ConsignmentMasterLevel
+      required:
+      - consignmentHouseLevel
+      - transportDocumentMasterLevel
+      type: object
+      properties:
+        receptacle:
+          maxItems: 9999
+          minItems: 0
+          type: array
+          items:
+            $ref: '#/components/schemas/Receptacle'
+          description: ''
+        carrier:
+          $ref: '#/components/schemas/Carrier'
+        consignmentHouseLevel:
+          maxItems: 99
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/ConsignmentHouseLevelType'
+          description: ''
+        transportDocumentMasterLevel:
+          $ref: '#/components/schemas/TransportDocumentReferenceType'
+        transportEquipment:
+          maxItems: 9999
+          minItems: 0
+          type: array
+          items:
+            $ref: '#/components/schemas/TransportEquipmentType'
+          description: ''
+    CustomsOfficeOfPresentationType:
+      title: CustomsOfficeOfPresentationType
+      required:
+      - referenceNumber
+      type: object
+      properties:
+        referenceNumber:
+          maxLength: 8
+          minLength: 8
+          type: string
+    CustomsOfficeType:
+      title: CustomsOfficeType
+      required:
+      - referenceNumber
+      type: object
+      properties:
+        referenceNumber:
+          maxLength: 8
+          minLength: 1
+          type: string
+    DeclarantAddressType:
+      title: DeclarantAddressType
+      required:
+      - city
+      - country
+      type: object
+      properties:
+        city:
+          maxLength: 35
+          minLength: 1
+          type: string
+        country:
+          maxLength: 2
+          minLength: 2
+          pattern: '[a-zA-Z]{2}'
+          type: string
+          description: Country Code from list
+          example: DE
+        subDivision:
+          maxLength: 35
+          minLength: 1
+          type: string
+        street:
+          maxLength: 70
+          minLength: 1
+          type: string
+        postCode:
+          maxLength: 9
+          minLength: 1
+          type: string
+        streetAdditionalLine:
+          maxLength: 70
+          minLength: 1
+          type: string
+        number:
+          maxLength: 35
+          minLength: 1
+          type: string
+        poBox:
+          maxLength: 70
+          minLength: 1
+          type: string
+    DeclarantType:
+      title: DeclarantType
+      required:
+      - name
+      - identificationNumber
+      - address
+      - communication
+      type: object
+      properties:
+        name:
+          maxLength: 70
+          minLength: 1
+          type: string
+        identificationNumber:
+          maxLength: 17
+          minLength: 1
+          type: string
+        address:
+          $ref: '#/components/schemas/DeclarantAddressType'
+        communication:
+          maxItems: 9
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/CommunicationType'
+          description: ''
+    EconomicOperatorType:
+      title: EconomicOperatorType
+      required:
+      - identificationNumber
+      type: object
+      properties:
+        identificationNumber:
+          maxLength: 17
+          minLength: 1
+          type: string
+        authorisationNumber:
+          maxLength: 35
+          minLength: 1
+          type: string
+        additionalIdentifier:
+          maxLength: 4
+          minLength: 1
+          type: string
+    GnssType:
+      title: GnssType
+      required:
+      - latitude
+      - longitude
+      type: object
+      properties:
+        latitude:
+          maxLength: 17
+          minLength: 1
+          type: string
+        longitude:
+          maxLength: 17
+          minLength: 1
+          type: string
+    ICS2Presentationnotificationversion2.0:
+      title: ICS2Presentationnotificationversion2.0
+      required:
+      - lrn
+      - declarationDate
+      - dateAndTimeOfPresentation
+      - previousDocument
+      - declarant
+      - locationOfGoods
+      - personPresentingTheGoods
+      - customsOfficeOfPresentation
+      type: object
+      properties:
+        lrn:
+          maxLength: 22
+          minLength: 1
+          type: string
+        declarationDate:
+          type: string
+          format: date-time
+        dateAndTimeOfPresentation:
+          type: string
+          format: date-time
+        previousDocument:
+          maxItems: 9999
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/PreviousDocument'
+          description: ''
+        declarant:
+          $ref: '#/components/schemas/DeclarantType'
+        representative:
+          $ref: '#/components/schemas/RepresentativeType'
+        locationOfGoods:
+          $ref: '#/components/schemas/LocationOfGoodsType'
+        personPresentingTheGoods:
+          $ref: '#/components/schemas/PersonPresentingTheGoodsType'
+        customsOfficeOfPresentation:
+          $ref: '#/components/schemas/CustomsOfficeOfPresentationType'
+      description: Presentation of Goods Notification from Carriers
+    LocationOfGoodsAddressType:
+      title: LocationOfGoodsAddressType
+      required:
+      - streetAndNumber
+      - postCode
+      - city
+      - country
+      type: object
+      properties:
+        streetAndNumber:
+          maxLength: 70
+          minLength: 1
+          type: string
+        postCode:
+          maxLength: 9
+          minLength: 1
+          type: string
+        city:
+          maxLength: 35
+          minLength: 1
+          type: string
+        country:
+          maxLength: 2
+          minLength: 2
+          pattern: '[a-zA-Z]{2}'
+          type: string
+          description: Country Code from list
+          example: DE
+    LocationOfGoodsType:
+      title: LocationOfGoodsType
+      required:
+      - typeOfLocation
+      - qualifierOfIdentification
+      type: object
+      properties:
+        typeOfLocation:
+          maxLength: 1
+          minLength: 1
+          type: string
+        qualifierOfIdentification:
+          maxLength: 1
+          minLength: 1
+          type: string
+        unloCode:
+          maxLength: 17
+          minLength: 1
+          type: string
+        customsOffice:
+          $ref: '#/components/schemas/CustomsOfficeType'
+        gnss:
+          $ref: '#/components/schemas/GnssType'
+        economicOperator:
+          $ref: '#/components/schemas/EconomicOperatorType'
+        address:
+          $ref: '#/components/schemas/LocationOfGoodsAddressType'
+        postcodeAddress:
+          $ref: '#/components/schemas/PostcodeAddress'
+    PersonPresentingTheGoodsType:
+      title: PersonPresentingTheGoodsType
+      required:
+      - identificationNumber
+      type: object
+      properties:
+        identificationNumber:
+          maxLength: 17
+          minLength: 1
+          type: string
+    PostcodeAddress:
+      title: PostcodeAddress
+      required:
+      - postCode
+      - number
+      - country
+      type: object
+      properties:
+        postCode:
+          maxLength: 9
+          minLength: 1
+          type: string
+        number:
+          maxLength: 35
+          minLength: 1
+          type: string
+        country:
+          maxLength: 2
+          minLength: 2
+          pattern: '[a-zA-Z]{2}'
+          type: string
+          description: Country Code from list
+          example: DE
+    PreviousDocument:
+      title: PreviousDocument
+      required:
+      - previousMRN
+      - type
+      - goodsItemIdentifier
+      - consignmentMasterLevel
+      type: object
+      properties:
+        previousMRN:
+          maxLength: 18
+          minLength: 18
+          type: string
+        type:
+          maxLength: 4
+          minLength: 4
+          type: string
+        goodsItemIdentifier:
+          maximum: 99999
+          minimum: 0
+          type: integer
+        consignmentMasterLevel:
+          $ref: '#/components/schemas/ConsignmentMasterLevel'
+    Receptacle:
+      title: Receptacle
+      required:
+      - receptacleIdentificationNumber
+      type: object
+      properties:
+        receptacleIdentificationNumber:
+          maxLength: 35
+          minLength: 1
+          type: string
+    RepresentativeType:
+      title: RepresentativeType
+      required:
+      - name
+      - identificationNumber
+      - status
+      - communication
+      type: object
+      properties:
+        name:
+          maxLength: 70
+          minLength: 1
+          type: string
+        identificationNumber:
+          maxLength: 17
+          minLength: 1
+          type: string
+        status:
+          maximum: 9
+          minimum: 0
+          type: integer
+          format: int32
+        communication:
+          maxItems: 9
+          type: array
+          items:
+            $ref: '#/components/schemas/CommunicationType'
+          description: ''
+    TransportDocumentReferenceType:
+      title: TransportDocumentReferenceType
+      required:
+      - referenceNumber
+      - type
+      type: object
+      properties:
+        referenceNumber:
+          maxLength: 70
+          minLength: 1
+          type: string
+        type:
+          maxLength: 4
+          minLength: 1
+          type: string
+    TransportEquipmentType:
+      title: TransportEquipmentType
+      required:
+      - containerIdentificationNumber
+      type: object
+      properties:
+        containerIdentificationNumber:
+          maxLength: 17
+          minLength: 1
+          type: string
+    BoxId:
+      title: BoxId
+      required:
+      - boxId
+      type: object
+      properties:
+        boxId:
+          type: string
+          description: 'The Push Pull Notifications Service (PPNS) box ID.'
+tags:
+- name: import-control-presentation-of-goods-api
+  description: ''
