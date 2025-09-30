@@ -43,8 +43,6 @@ paths:
             schema:
               allOf:
               - $ref: '#/components/schemas/ICS2Presentationnotificationversion2.0'
-              - example:
-                $ref: './examples/presentation-notification-request.json'
             examples:
               "Example 1":
                 externalValue: './examples/presentation-notification-request.json'
