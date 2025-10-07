@@ -1,0 +1,81 @@
+{
+  "lrn": "HMRCS25123456789",
+  "declarationDate": "2025-08-22T14:30:00Z",
+  "dateAndTimeOfPresentation": "2025-08-23T15:30:00Z",
+  "previousDocument": [
+    {
+      "previousMRN": "23XI9876AB88901AT9",
+      "type": "N355",
+      "goodsItemIdentifier": 1,
+      "consignmentMasterLevel": {
+        "carrier": {
+          "identificationNumber": "XI567820001000"
+        },
+        "consignmentHouseLevel": [
+          {
+            "transportDocumentHouseLevel": {
+              "referenceNumber": "HMRC11000110110101",
+              "type": "N740"
+            }
+          }
+        ],
+        "transportDocumentMasterLevel": {
+          "referenceNumber": "HMRCA110012111",
+          "type": "N720"
+        },
+        "transportEquipment": [
+          {
+            "containerIdentificationNumber": "HMC0501"
+          }
+        ]
+      }
+    }
+  ],
+  "declarant": {
+    "name": "His Majesty's Revenue And Customs",
+    "identificationNumber": "XI111120004321",
+    "address": {
+      "city": "London",
+      "country": "GB",
+      "street": "Parliament Street",
+      "postCode": "SW1A 2BQ",
+      "number": "100"
+    },
+    "communication": [
+      {
+        "identifier": "+441234567890",
+        "type": "TE"
+      },
+      {
+        "identifier": "example@examplemail.com",
+        "type": "EM"
+      }
+    ]
+  },
+  "representative": {
+    "name": "His Majesty's Revenue and Customs",
+    "identificationNumber": "XI111120004321",
+    "status": 2,
+    "communication": [
+      {
+        "identifier": "+441234567890",
+        "type": "TE"
+      },
+      {
+        "identifier": "example@examplemail.com",
+        "type": "EM"
+      }
+    ]
+  },
+  "locationOfGoods": {
+    "typeOfLocation": "B",
+    "qualifierOfIdentification": "U",
+    "unloCode": "GBBEL"
+  },
+  "personPresentingTheGoods": {
+    "identificationNumber": "XI123410002000"
+  },
+  "customsOfficeOfPresentation": {
+    "referenceNumber": "XI111123"
+  }
+}
