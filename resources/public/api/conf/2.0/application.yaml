@@ -116,11 +116,11 @@ paths:
                     ]
       deprecated: false
       security:
-        - userRestricted:
+        - User-Restricted:
             - write:import-control-system-2
 components:
   securitySchemes:
-    userRestricted:
+    User-Restricted:
       type: oauth2
       description: |
         HMRC supports OAuth 2.0 for authenticating user restricted API requests using an OAuth 2.0 Bearer Token in the AUTHORIZATION header.
