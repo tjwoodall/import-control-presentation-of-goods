@@ -17,13 +17,13 @@
                     {
                         "transportDocumentHouseLevel": {
                             "referenceNumber": "Ref1",
-                            "type": "N740"
+                            "type": "N714"
                         }
                     }
                 ],
                 "transportDocumentMasterLevel": {
                     "referenceNumber": "Ref1020",
-                    "type": "N741"
+                    "type": "N704"
                 },
                 "transportEquipment": [
                     {
@@ -46,13 +46,13 @@
                     {
                         "transportDocumentHouseLevel": {
                             "referenceNumber": "Ref2",
-                            "type": "N740"
+                            "type": "N714"
                         }
                     }
                 ],
                 "transportDocumentMasterLevel": {
                     "referenceNumber": "Ref1020",
-                    "type": "N741"
+                    "type": "N704"
                 },
                 "transportEquipment": [
                     {
@@ -75,13 +75,13 @@
                     {
                         "transportDocumentHouseLevel": {
                             "referenceNumber": "Ref2",
-                            "type": "N740"
+                            "type": "N714"
                         }
                     }
                 ],
                 "transportDocumentMasterLevel": {
                     "referenceNumber": "Ref1020",
-                    "type": "N741"
+                    "type": "N704"
                 },
                 "transportEquipment": [
                     {
@@ -104,13 +104,13 @@
                     {
                         "transportDocumentHouseLevel": {
                             "referenceNumber": "Ref2",
-                            "type": "N740"
+                            "type": "N714"
                         }
                     }
                 ],
                 "transportDocumentMasterLevel": {
                     "referenceNumber": "Ref1020",
-                    "type": "N741"
+                    "type": "N704"
                 },
                 "transportEquipment": [
                     {
