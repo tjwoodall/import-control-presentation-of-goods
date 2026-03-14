@@ -44,11 +44,38 @@ paths:
               allOf:
               - $ref: '#/components/schemas/ICS2Presentationnotificationversion2.0'
             examples:
-              "Example 1":
-                externalValue: './examples/presentation-notification-request.json'
-              "Example 2":
+              "Generic example":
+                description: Generic example
+                value: 
+                  $ref: './examples/presentation-notification-request.json'
+              "Air freight N740 example":
                 description: Air freight N740 example
-                externalValue: './examples/pog-notification-air-freight-N740.json'
+                value:
+                  $ref: './examples/pog-notification-air-freight-N740.json'
+              "Air freight example":
+                description: Air freight example
+                value:
+                  $ref: './examples/pog-notification-air-freight.json'
+              "Maritime bulk example":
+                description: Maritime bulk example
+                value:
+                  $ref: './examples/pog-notification-maritime-bulk.json'
+              "Maritime container example":
+                description: Maritime container example
+                value:
+                  $ref: './examples/pog-notification-maritime-container.json'
+              "Post road example":
+                description: Post road example
+                value:
+                  $ref: './examples/pog-notification-post-road.json'
+              "Accompanied RoRo example":
+                description: Accompanied RoRo example
+                value:
+                  $ref: './examples/pog-notification-roro-accompanied.json'
+              "Unaccompanied RoRo example":
+                description: Unaccompanied RoRo example
+                value:
+                  $ref: './examples/pog-notification-roro-unaccompanied.json'
         required: true
       responses:
         '202':

@@ -1,7 +1,7 @@
 {
   "lrn": "HMRCS25123456789",
-  "declarationDate": "2025-08-22T14:30:00Z",
-  "dateAndTimeOfPresentation": "2025-08-23T15:30:00Z",
+  "declarationDate": "2022-05-17T00:17:33Z",
+  "dateAndTimeOfPresentation": "2022-05-19T00:18:33Z",
   "previousDocument": [
     {
       "previousMRN": "23XI9876AB88901AT9",
@@ -14,20 +14,15 @@
         "consignmentHouseLevel": [
           {
             "transportDocumentHouseLevel": {
-              "referenceNumber": "HMRC11000110110101",
-              "type": "N740"
+              "referenceNumber": "REF1234560",
+              "type": "N703"
             }
           }
         ],
         "transportDocumentMasterLevel": {
-          "referenceNumber": "HMRCA110012111",
-          "type": "N720"
-        },
-        "transportEquipment": [
-          {
-            "containerIdentificationNumber": "HMC0501"
-          }
-        ]
+          "referenceNumber": "REF1234560",
+          "type": "N741"
+        }
       }
     }
   ],
@@ -37,15 +32,13 @@
     "address": {
       "city": "London",
       "country": "GB",
-      "street": "Parliament Street",
-      "postCode": "SW1A 2BQ",
-      "number": "100"
+      "street": "Parliament Road",
+      "streetAdditionalLine": "ABCDE",
+      "postCode": "SW1 2AB",
+      "number": "1",
+      "subDivision": "Central"
     },
     "communication": [
-      {
-        "identifier": "+441234567890",
-        "type": "TE"
-      },
       {
         "identifier": "example@examplemail.com",
         "type": "EM"
@@ -55,7 +48,7 @@
   "representative": {
     "name": "His Majesty's Revenue and Customs",
     "identificationNumber": "XI123456789120",
-    "status": 2,
+    "status": 3,
     "communication": [
       {
         "identifier": "+441234567890",
@@ -68,14 +61,14 @@
     ]
   },
   "locationOfGoods": {
-    "typeOfLocation": "B",
+    "typeOfLocation": "A",
     "qualifierOfIdentification": "U",
-    "unloCode": "GBBEL"
+    "unloCode": "GBBEL123"
   },
   "personPresentingTheGoods": {
     "identificationNumber": "XI123456789120"
   },
   "customsOfficeOfPresentation": {
-    "referenceNumber": "XI111123"
+    "referenceNumber": "GB124000"
   }
 }

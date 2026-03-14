@@ -35,35 +35,6 @@
         {
             "previousMRN": "23XI9876AB88901AT9",
             "type": "N355",
-            "goodsItemIdentifier": 1,
-            "consignmentMasterLevel": {
-                "receptacle": [
-                    {
-                        "receptacleIdentificationNumber": "DEFRAANLAMSAAUN40027002000258"
-                    }
-                ],
-                "consignmentHouseLevel": [
-                    {
-                        "transportDocumentHouseLevel": {
-                            "referenceNumber": "Ref2",
-                            "type": "N714"
-                        }
-                    }
-                ],
-                "transportDocumentMasterLevel": {
-                    "referenceNumber": "Ref1020",
-                    "type": "N704"
-                },
-                "transportEquipment": [
-                    {
-                        "containerIdentificationNumber": "BICU1234565"
-                    }
-                ]
-            }
-        },
-        {
-            "previousMRN": "23XI9876AB88901AT9",
-            "type": "N355",
             "goodsItemIdentifier": 2,
             "consignmentMasterLevel": {
                 "receptacle": [
@@ -122,7 +93,7 @@
     ],
     "declarant": {
         "name": "Free text field",
-        "identificationNumber": "XI123456789120000",
+        "identificationNumber": "XI123456789120",
         "address": {
             "street": "Street Name",
             "streetAdditionalLine": "ABCDE",
@@ -142,7 +113,7 @@
     },
     "representative": {
         "name": "Representative Name",
-        "identificationNumber": "XI12345678912089",
+        "identificationNumber": "XI123456789120",
         "status": 3,
         "communication": [
             {
@@ -167,7 +138,7 @@
             "longitude": "-0.12472"
         },
         "economicOperator": {
-            "identificationNumber": "XITG0003456734567",
+            "identificationNumber": "XI123456789120",
             "authorisationNumber": "XIDEPBT13ET",
             "additionalIdentifier": "ABCD"
         },
@@ -184,7 +155,7 @@
         }
     },
     "personPresentingTheGoods": {
-        "identificationNumber": "XI12345678912089"
+        "identificationNumber": "XI123456789120"
     },
     "customsOfficeOfPresentation": {
         "referenceNumber": "GB123000"
