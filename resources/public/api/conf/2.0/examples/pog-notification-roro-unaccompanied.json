@@ -1,0 +1,58 @@
+{
+    "lrn": "HMRCS25123456789",
+    "declarationDate": "2022-05-17T00:17:33Z",
+    "dateAndTimeOfPresentation": "2022-05-19T00:18:33Z",
+    "previousDocument": [
+        {
+            "previousMRN": "23XI9876AB88901AT9",
+            "type": "N355",
+            "goodsItemIdentifier": 1,
+            "consignmentMasterLevel": {
+                "consignmentHouseLevel": [
+                    {
+                        "transportDocumentHouseLevel": {
+                            "referenceNumber": "REF1234560",
+                            "type": "N730"
+                        }
+                    }
+                ],
+                "transportDocumentMasterLevel": {
+                    "referenceNumber": "REF1234560",
+                    "type": "N704"
+                }
+            }
+        }
+    ],
+    "declarant": {
+        "name": "His Majesty's Revenue And Customs",
+        "identificationNumber": "XI123456789120",
+        "address": {
+            "street": "Parliament Road",
+            "streetAdditionalLine": "ABCDE",
+            "number": "1",
+            "subDivision": "Central",
+            "country": "GB",
+            "postCode": "SW1 2AB",
+            "city": "London"
+        },
+        "communication": [
+            {
+                "identifier": "example@examplemail.com",
+                "type": "EM"
+            }
+        ]
+    },
+    "locationOfGoods": {
+        "typeOfLocation": "A",
+        "qualifierOfIdentification": "X",
+        "economicOperator": {
+            "identificationNumber": "XI123456789120"
+        }
+    },
+    "personPresentingTheGoods": {
+        "identificationNumber": "XI123456789120"
+    },
+    "customsOfficeOfPresentation": {
+        "referenceNumber": "GB124000"
+    }
+}
