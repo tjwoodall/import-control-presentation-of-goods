@@ -1,0 +1,953 @@
+openapi: 3.0.3
+info:
+  title: ICS2 Presentation Of Goods
+  description: ''
+  contact: {}
+  version: '2.0'
+servers:
+  - url: https://test-api.service.hmrc.gov.uk/customs/import-control/presentation-of-goods
+    description: Sandbox
+    variables: {}
+  - url: https://api.service.hmrc.gov.uk/customs/import-control/presentation-of-goods
+    description: Production
+    variables: {}
+tags:
+  - name: import-control-presentation-of-goods-api
+    description: ''
+paths:
+  /:
+    post:
+      tags:
+        - import-control-presentation-of-goods-api
+      summary: Submit a Presentation of Goods
+      description: |
+        This API allows the user to submit a Presentation Notification.
+      operationId: SubmitaPresentationofGoods
+      parameters:
+        - name: Accept
+          in: header
+          description: Specifies the version of the API that you want to call. See [versioning](/api-documentation/docs/reference-guide#versioning).
+          required: true
+          style: simple
+          schema:
+            type: string
+            example: application/vnd.hmrc.2.0+json
+        - name: Content-Type
+          in: header
+          description: Specifies the format of the request body. Must be "application/json".
+          style: simple
+          schema:
+            type: string
+            example: application/json
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - title: ICS2Presentationnotificationversion2.0
+                  required: &ref_16
+                    - lrn
+                    - declarationDate
+                    - dateAndTimeOfPresentation
+                    - previousDocument
+                    - declarant
+                    - locationOfGoods
+                    - personPresentingTheGoods
+                    - customsOfficeOfPresentation
+                  type: object
+                  properties: &ref_17
+                    lrn:
+                      maxLength: 22
+                      minLength: 1
+                      type: string
+                    declarationDate:
+                      type: string
+                      format: date-time
+                    dateAndTimeOfPresentation:
+                      type: string
+                      format: date-time
+                    previousDocument:
+                      maxItems: 9999
+                      minItems: 1
+                      type: array
+                      items:
+                        title: PreviousDocument
+                        required: &ref_20
+                          - previousMRN
+                          - type
+                          - goodsItemIdentifier
+                          - consignmentMasterLevel
+                        type: object
+                        properties: &ref_21
+                          previousMRN:
+                            maxLength: 18
+                            minLength: 18
+                            type: string
+                          type:
+                            maxLength: 4
+                            minLength: 4
+                            type: string
+                          goodsItemIdentifier:
+                            maximum: 99999
+                            minimum: 0
+                            type: integer
+                          consignmentMasterLevel:
+                            title: ConsignmentMasterLevel
+                            required: &ref_12
+                              - consignmentHouseLevel
+                              - transportDocumentMasterLevel
+                            type: object
+                            properties: &ref_13
+                              receptacle:
+                                maxItems: 9999
+                                minItems: 0
+                                type: array
+                                items:
+                                  title: Receptacle
+                                  required:
+                                    - receptacleIdentificationNumber
+                                  type: object
+                                  properties:
+                                    receptacleIdentificationNumber:
+                                      maxLength: 35
+                                      minLength: 1
+                                      type: string
+                                description: ''
+                              carrier:
+                                title: Carrier
+                                required:
+                                  - identificationNumber
+                                type: object
+                                description: |
+                                  The carrier of the goods.
+                                  This object **must** be present if one or more house-level transport documents of type N703 or N740 are included in the presentation notification.
+                                  Otherwise, this object is optional.
+                                properties:
+                                  identificationNumber:
+                                    maxLength: 17
+                                    minLength: 1
+                                    type: string
+                                    description: The carrier identification number.
+                              consignmentHouseLevel:
+                                maxItems: 99
+                                minItems: 1
+                                type: array
+                                items:
+                                  title: ConsignmentHouseLevelType
+                                  required: &ref_10
+                                    - transportDocumentHouseLevel
+                                  type: object
+                                  properties: &ref_11
+                                    transportDocumentHouseLevel:
+                                      title: TransportDocumentReferenceType
+                                      required: &ref_0
+                                        - referenceNumber
+                                        - type
+                                      type: object
+                                      properties: &ref_1
+                                        referenceNumber:
+                                          maxLength: 70
+                                          minLength: 1
+                                          type: string
+                                        type:
+                                          maxLength: 4
+                                          minLength: 1
+                                          type: string
+                                description: ''
+                              transportDocumentMasterLevel:
+                                title: TransportDocumentReferenceType
+                                required: *ref_0
+                                type: object
+                                properties: *ref_1
+                              transportEquipment:
+                                maxItems: 9999
+                                minItems: 0
+                                type: array
+                                items:
+                                  title: TransportEquipmentType
+                                  required:
+                                    - containerIdentificationNumber
+                                  type: object
+                                  properties:
+                                    containerIdentificationNumber:
+                                      maxLength: 17
+                                      minLength: 1
+                                      type: string
+                                description: ''
+                      description: ''
+                    declarant:
+                      title: DeclarantType
+                      required: &ref_14
+                        - name
+                        - identificationNumber
+                        - address
+                        - communication
+                      type: object
+                      properties: &ref_15
+                        name:
+                          maxLength: 70
+                          minLength: 1
+                          type: string
+                        identificationNumber:
+                          maxLength: 17
+                          minLength: 1
+                          type: string
+                        address:
+                          title: DeclarantAddressType
+                          required:
+                            - city
+                            - country
+                          type: object
+                          properties:
+                            city:
+                              maxLength: 35
+                              minLength: 1
+                              type: string
+                            country:
+                              maxLength: 2
+                              minLength: 2
+                              pattern: '[a-zA-Z]{2}'
+                              type: string
+                              description: Country Code from list
+                              example: DE
+                            subDivision:
+                              maxLength: 35
+                              minLength: 1
+                              type: string
+                            street:
+                              maxLength: 70
+                              minLength: 1
+                              type: string
+                            postCode:
+                              maxLength: 9
+                              minLength: 1
+                              type: string
+                            streetAdditionalLine:
+                              maxLength: 70
+                              minLength: 1
+                              type: string
+                            number:
+                              maxLength: 35
+                              minLength: 1
+                              type: string
+                            poBox:
+                              maxLength: 70
+                              minLength: 1
+                              type: string
+                        communication:
+                          maxItems: 9
+                          minItems: 1
+                          type: array
+                          items:
+                            title: CommunicationType
+                            required: &ref_2
+                              - identifier
+                              - type
+                            type: object
+                            properties: &ref_3
+                              identifier:
+                                maxLength: 512
+                                minLength: 1
+                                type: string
+                              type:
+                                maxLength: 3
+                                minLength: 1
+                                type: string
+                          description: ''
+                    representative:
+                      title: RepresentativeType
+                      required: &ref_22
+                        - name
+                        - identificationNumber
+                        - status
+                        - communication
+                      type: object
+                      properties: &ref_23
+                        name:
+                          maxLength: 70
+                          minLength: 1
+                          type: string
+                        identificationNumber:
+                          maxLength: 17
+                          minLength: 1
+                          type: string
+                        status:
+                          maximum: 9
+                          minimum: 0
+                          type: integer
+                          format: int32
+                        communication:
+                          maxItems: 9
+                          type: array
+                          items:
+                            title: CommunicationType
+                            required: *ref_2
+                            type: object
+                            properties: *ref_3
+                          description: ''
+                    locationOfGoods:
+                      title: LocationOfGoodsType
+                      required: &ref_18
+                        - typeOfLocation
+                        - qualifierOfIdentification
+                      type: object
+                      properties: &ref_19
+                        typeOfLocation:
+                          maxLength: 1
+                          minLength: 1
+                          type: string
+                        qualifierOfIdentification:
+                          maxLength: 1
+                          minLength: 1
+                          type: string
+                        unloCode:
+                          maxLength: 17
+                          minLength: 1
+                          type: string
+                        customsOffice:
+                          title: CustomsOfficeType
+                          required:
+                            - referenceNumber
+                          type: object
+                          properties:
+                            referenceNumber:
+                              maxLength: 8
+                              minLength: 1
+                              type: string
+                        gnss:
+                          title: GnssType
+                          required:
+                            - latitude
+                            - longitude
+                          type: object
+                          properties:
+                            latitude:
+                              maxLength: 17
+                              minLength: 1
+                              type: string
+                            longitude:
+                              maxLength: 17
+                              minLength: 1
+                              type: string
+                        economicOperator:
+                          title: EconomicOperatorType
+                          required:
+                            - identificationNumber
+                          type: object
+                          properties:
+                            identificationNumber:
+                              maxLength: 17
+                              minLength: 1
+                              type: string
+                            authorisationNumber:
+                              maxLength: 35
+                              minLength: 1
+                              type: string
+                            additionalIdentifier:
+                              maxLength: 4
+                              minLength: 1
+                              type: string
+                        address:
+                          title: LocationOfGoodsAddressType
+                          required:
+                            - streetAndNumber
+                            - postCode
+                            - city
+                            - country
+                          type: object
+                          properties:
+                            streetAndNumber:
+                              maxLength: 70
+                              minLength: 1
+                              type: string
+                            postCode:
+                              maxLength: 9
+                              minLength: 1
+                              type: string
+                            city:
+                              maxLength: 35
+                              minLength: 1
+                              type: string
+                            country:
+                              maxLength: 2
+                              minLength: 2
+                              pattern: '[a-zA-Z]{2}'
+                              type: string
+                              description: Country Code from list
+                              example: DE
+                        postcodeAddress:
+                          title: PostcodeAddress
+                          required:
+                            - postCode
+                            - number
+                            - country
+                          type: object
+                          properties:
+                            postCode:
+                              maxLength: 9
+                              minLength: 1
+                              type: string
+                            number:
+                              maxLength: 35
+                              minLength: 1
+                              type: string
+                            country:
+                              maxLength: 2
+                              minLength: 2
+                              pattern: '[a-zA-Z]{2}'
+                              type: string
+                              description: Country Code from list
+                              example: DE
+                    personPresentingTheGoods:
+                      title: PersonPresentingTheGoodsType
+                      required:
+                        - identificationNumber
+                      type: object
+                      properties:
+                        identificationNumber:
+                          maxLength: 17
+                          minLength: 1
+                          type: string
+                    customsOfficeOfPresentation:
+                      title: CustomsOfficeOfPresentationType
+                      required:
+                        - referenceNumber
+                      type: object
+                      properties:
+                        referenceNumber:
+                          maxLength: 8
+                          minLength: 8
+                          type: string
+                  description: Presentation of Goods Notification from Carriers
+                - example: null
+                  lrn: UniqueReference123
+                  declarationDate: '2022-05-17T00:17:33Z'
+                  dateAndTimeOfPresentation: '2022-05-19T00:18:33Z'
+                  previousDocument: &ref_4
+                    - previousMRN: 23XI9876AB88901AT9
+                      type: N355
+                      goodsItemIdentifier: 1
+                      consignmentMasterLevel:
+                        receptacle:
+                          - receptacleIdentificationNumber: DEFRAANLAMSAAUN40027002000258
+                        consignmentHouseLevel:
+                          - transportDocumentHouseLevel:
+                              referenceNumber: Ref1
+                              type: N714
+                        transportDocumentMasterLevel:
+                          referenceNumber: Ref1020
+                          type: N704
+                        transportEquipment:
+                          - containerIdentificationNumber: BICU1234565
+                    - previousMRN: 23XI9876AB88901AT9
+                      type: N355
+                      goodsItemIdentifier: 2
+                      consignmentMasterLevel:
+                        receptacle:
+                          - receptacleIdentificationNumber: DEFRAANLAMSAAUN40027002000258
+                        consignmentHouseLevel:
+                          - transportDocumentHouseLevel:
+                              referenceNumber: Ref2
+                              type: N714
+                        transportDocumentMasterLevel:
+                          referenceNumber: Ref1020
+                          type: N704
+                        transportEquipment:
+                          - containerIdentificationNumber: BICU1234565
+                    - previousMRN: 23XI9876AB88901AT9
+                      type: N355
+                      goodsItemIdentifier: 3
+                      consignmentMasterLevel:
+                        receptacle:
+                          - receptacleIdentificationNumber: DEFRAANLAMSAAUN40027002000258
+                        consignmentHouseLevel:
+                          - transportDocumentHouseLevel:
+                              referenceNumber: Ref2
+                              type: N714
+                        transportDocumentMasterLevel:
+                          referenceNumber: Ref1020
+                          type: N704
+                        transportEquipment:
+                          - containerIdentificationNumber: BICU1234565
+                  declarant: &ref_5
+                    name: Free text field
+                    identificationNumber: XI123456789120
+                    address:
+                      street: Street Name
+                      streetAdditionalLine: ABCDE
+                      number: '1'
+                      poBox: BX1
+                      subDivision: ABCDEFGHIJKLMN
+                      country: DE
+                      postCode: ABC123
+                      city: Berlin
+                    communication:
+                      - identifier: example@examplemail.com
+                        type: EM
+                  representative: &ref_6
+                    name: Representative Name
+                    identificationNumber: XI123456789120
+                    status: 3
+                    communication:
+                      - identifier: example@examplemail.com
+                        type: EM
+                      - identifier: '01567289100'
+                        type: TE
+                  locationOfGoods: &ref_7
+                    typeOfLocation: A
+                    qualifierOfIdentification: U
+                    unloCode: GBBEL123
+                    customsOffice:
+                      referenceNumber: GB123000
+                    gnss:
+                      latitude: '51.50079'
+                      longitude: '-0.12472'
+                    economicOperator:
+                      identificationNumber: XI123456789120
+                      authorisationNumber: XIDEPBT13ET
+                      additionalIdentifier: ABCD
+                    address:
+                      country: DE
+                      city: Munich
+                      streetAndNumber: 5 Franz Strasse
+                      postCode: '80939'
+                    postcodeAddress:
+                      postCode: '80939'
+                      number: '5'
+                      country: DE
+                  personPresentingTheGoods: &ref_8
+                    identificationNumber: XI123456789120
+                  customsOfficeOfPresentation: &ref_9
+                    referenceNumber: GB123000
+            examples:
+              Generic example:
+                description: Generic example
+                value:
+                  lrn: UniqueReference123
+                  declarationDate: '2022-05-17T00:17:33Z'
+                  dateAndTimeOfPresentation: '2022-05-19T00:18:33Z'
+                  previousDocument: *ref_4
+                  declarant: *ref_5
+                  representative: *ref_6
+                  locationOfGoods: *ref_7
+                  personPresentingTheGoods: *ref_8
+                  customsOfficeOfPresentation: *ref_9
+              Air freight N740 example:
+                description: Air freight N740 example
+                value:
+                  lrn: HMRCS25123456789
+                  declarationDate: '2025-08-22T14:30:00Z'
+                  dateAndTimeOfPresentation: '2025-08-23T15:30:00Z'
+                  previousDocument:
+                    - previousMRN: 23XI9876AB88901AT9
+                      type: N355
+                      goodsItemIdentifier: 1
+                      consignmentMasterLevel:
+                        carrier:
+                          identificationNumber: XI123456789120
+                        consignmentHouseLevel:
+                          - transportDocumentHouseLevel:
+                              referenceNumber: HMRC11000110110101
+                              type: N740
+                        transportDocumentMasterLevel:
+                          referenceNumber: HMRCA110012111
+                          type: N720
+                        transportEquipment:
+                          - containerIdentificationNumber: HMC0501
+                  declarant:
+                    name: His Majesty's Revenue And Customs
+                    identificationNumber: XI123456789120
+                    address:
+                      city: London
+                      country: GB
+                      street: Parliament Street
+                      postCode: SW1A 2BQ
+                      number: '100'
+                    communication:
+                      - identifier: '+441234567890'
+                        type: TE
+                      - identifier: example@examplemail.com
+                        type: EM
+                  representative:
+                    name: His Majesty's Revenue and Customs
+                    identificationNumber: XI123456789120
+                    status: 2
+                    communication:
+                      - identifier: '+441234567890'
+                        type: TE
+                      - identifier: example@examplemail.com
+                        type: EM
+                  locationOfGoods:
+                    typeOfLocation: B
+                    qualifierOfIdentification: U
+                    unloCode: GBBEL
+                  personPresentingTheGoods:
+                    identificationNumber: XI123456789120
+                  customsOfficeOfPresentation:
+                    referenceNumber: XI111123
+              Air freight example:
+                description: Air freight example
+                value:
+                  lrn: HMRCS25123456789
+                  declarationDate: '2022-05-17T00:17:33Z'
+                  dateAndTimeOfPresentation: '2022-05-19T00:18:33Z'
+                  previousDocument:
+                    - previousMRN: 23XI9876AB88901AT9
+                      type: N355
+                      goodsItemIdentifier: 1
+                      consignmentMasterLevel:
+                        carrier:
+                          identificationNumber: XI123456789120
+                        consignmentHouseLevel:
+                          - transportDocumentHouseLevel:
+                              referenceNumber: REF1234560
+                              type: N703
+                        transportDocumentMasterLevel:
+                          referenceNumber: REF1234560
+                          type: N741
+                  declarant:
+                    name: His Majesty's Revenue And Customs
+                    identificationNumber: XI123456789120
+                    address:
+                      city: London
+                      country: GB
+                      street: Parliament Road
+                      streetAdditionalLine: ABCDE
+                      postCode: SW1 2AB
+                      number: '1'
+                      subDivision: Central
+                    communication:
+                      - identifier: example@examplemail.com
+                        type: EM
+                  representative:
+                    name: His Majesty's Revenue and Customs
+                    identificationNumber: XI123456789120
+                    status: 3
+                    communication:
+                      - identifier: '+441234567890'
+                        type: TE
+                      - identifier: example@examplemail.com
+                        type: EM
+                  locationOfGoods:
+                    typeOfLocation: A
+                    qualifierOfIdentification: U
+                    unloCode: GBBEL123
+                  personPresentingTheGoods:
+                    identificationNumber: XI123456789120
+                  customsOfficeOfPresentation:
+                    referenceNumber: GB124000
+              Maritime bulk example:
+                description: Maritime bulk example
+                value:
+                  lrn: HMRCS25123456789
+                  declarationDate: '2022-05-17T00:17:33Z'
+                  dateAndTimeOfPresentation: '2022-05-19T00:18:33Z'
+                  previousDocument:
+                    - previousMRN: 23XI9876AB88901AT9
+                      type: N355
+                      goodsItemIdentifier: 1
+                      consignmentMasterLevel:
+                        consignmentHouseLevel:
+                          - transportDocumentHouseLevel:
+                              referenceNumber: REF1234560
+                              type: N714
+                        transportDocumentMasterLevel:
+                          referenceNumber: REF1234560
+                          type: N704
+                  declarant:
+                    name: His Majesty's Revenue And Customs
+                    identificationNumber: XI123456789120
+                    address:
+                      street: Parliament Road
+                      streetAdditionalLine: ABCDE
+                      number: '1'
+                      subDivision: Central
+                      country: GB
+                      postCode: SW1 2AB
+                      city: London
+                    communication:
+                      - identifier: example@examplemail.com
+                        type: EM
+                  locationOfGoods:
+                    typeOfLocation: A
+                    qualifierOfIdentification: V
+                    customsOffice:
+                      referenceNumber: GB123000
+                  personPresentingTheGoods:
+                    identificationNumber: XI123456789120
+                  customsOfficeOfPresentation:
+                    referenceNumber: GB124000
+              Maritime container example:
+                description: Maritime container example
+                value:
+                  lrn: HMRCS25123456789
+                  declarationDate: '2022-05-17T00:17:33Z'
+                  dateAndTimeOfPresentation: '2022-05-19T00:18:33Z'
+                  previousDocument:
+                    - previousMRN: 23XI9876AB88901AT9
+                      type: N355
+                      goodsItemIdentifier: 1
+                      consignmentMasterLevel:
+                        consignmentHouseLevel:
+                          - transportDocumentHouseLevel:
+                              referenceNumber: REF1234560
+                              type: N714
+                        transportDocumentMasterLevel:
+                          referenceNumber: REF1234560
+                          type: N704
+                        transportEquipment:
+                          - containerIdentificationNumber: BICU1234565
+                  declarant:
+                    name: His Majesty's Revenue And Customs
+                    identificationNumber: XI123456789120
+                    address:
+                      street: Parliament Road
+                      streetAdditionalLine: ABCDE
+                      number: '1'
+                      subDivision: Central
+                      country: GB
+                      postCode: SW1 2AB
+                      city: London
+                    communication:
+                      - identifier: example@examplemail.com
+                        type: EM
+                  locationOfGoods:
+                    typeOfLocation: A
+                    qualifierOfIdentification: W
+                    gnss:
+                      latitude: '51.50079'
+                      longitude: '-0.12472'
+                  personPresentingTheGoods:
+                    identificationNumber: XI123456789120
+                  customsOfficeOfPresentation:
+                    referenceNumber: GB124000
+              Post road example:
+                description: Post road example
+                value:
+                  lrn: HMRCS25123456789
+                  declarationDate: '2022-05-17T00:17:33Z'
+                  dateAndTimeOfPresentation: '2022-05-19T00:18:33Z'
+                  previousDocument:
+                    - previousMRN: 23XI9876AB88901AT9
+                      type: N355
+                      goodsItemIdentifier: 1
+                      consignmentMasterLevel:
+                        receptacle:
+                          - receptacleIdentificationNumber: DEFRAANLAMSAAUN40027002000258
+                        consignmentHouseLevel:
+                          - transportDocumentHouseLevel:
+                              referenceNumber: REF1234560
+                              type: N730
+                        transportDocumentMasterLevel:
+                          referenceNumber: REF1234560
+                          type: N704
+                  declarant:
+                    name: His Majesty's Revenue And Customs
+                    identificationNumber: XI123456789120
+                    address:
+                      poBox: PO BOX 240
+                      subDivision: Central
+                      country: GB
+                      postCode: SW1 2AB
+                      city: London
+                    communication:
+                      - identifier: example@examplemail.com
+                        type: EM
+                  locationOfGoods:
+                    typeOfLocation: A
+                    qualifierOfIdentification: Z
+                    address:
+                      streetAndNumber: 1 Ferry Rd
+                      postCode: CT17 1AB
+                      city: Dover
+                      country: GB
+                  personPresentingTheGoods:
+                    identificationNumber: XI123456789120
+                  customsOfficeOfPresentation:
+                    referenceNumber: GB124000
+              Accompanied RoRo example:
+                description: Accompanied RoRo example
+                value:
+                  lrn: UniqueReference123
+                  declarationDate: '2022-05-17T00:17:33Z'
+                  dateAndTimeOfPresentation: '2022-05-19T00:18:33Z'
+                  previousDocument:
+                    - previousMRN: 23XI9876AB88901AT9
+                      type: N355
+                      goodsItemIdentifier: 1
+                      consignmentMasterLevel:
+                        consignmentHouseLevel:
+                          - transportDocumentHouseLevel:
+                              referenceNumber: REF1234560
+                              type: N730
+                        transportDocumentMasterLevel:
+                          referenceNumber: REF1234560
+                          type: N704
+                  declarant:
+                    name: Free text field
+                    identificationNumber: XI123456789120
+                    address:
+                      street: Street Name
+                      streetAdditionalLine: ABCDE
+                      number: '1'
+                      subDivision: ABCDEFGHIJKLMN
+                      country: DE
+                      postCode: ABC123
+                      city: Berlin
+                    communication:
+                      - identifier: example@examplemail.com
+                        type: EM
+                  locationOfGoods:
+                    typeOfLocation: A
+                    qualifierOfIdentification: T
+                    postcodeAddress:
+                      postCode: CT17 1AB
+                      number: '1'
+                      country: GB
+                  personPresentingTheGoods:
+                    identificationNumber: XI123456789120
+                  customsOfficeOfPresentation:
+                    referenceNumber: GB124000
+              Unaccompanied RoRo example:
+                description: Unaccompanied RoRo example
+                value:
+                  lrn: HMRCS25123456789
+                  declarationDate: '2022-05-17T00:17:33Z'
+                  dateAndTimeOfPresentation: '2022-05-19T00:18:33Z'
+                  previousDocument:
+                    - previousMRN: 23XI9876AB88901AT9
+                      type: N355
+                      goodsItemIdentifier: 1
+                      consignmentMasterLevel:
+                        consignmentHouseLevel:
+                          - transportDocumentHouseLevel:
+                              referenceNumber: REF1234560
+                              type: N730
+                        transportDocumentMasterLevel:
+                          referenceNumber: REF1234560
+                          type: N704
+                  declarant:
+                    name: His Majesty's Revenue And Customs
+                    identificationNumber: XI123456789120
+                    address:
+                      street: Parliament Road
+                      streetAdditionalLine: ABCDE
+                      number: '1'
+                      subDivision: Central
+                      country: GB
+                      postCode: SW1 2AB
+                      city: London
+                    communication:
+                      - identifier: example@examplemail.com
+                        type: EM
+                  locationOfGoods:
+                    typeOfLocation: A
+                    qualifierOfIdentification: X
+                    economicOperator:
+                      identificationNumber: XI123456789120
+                  personPresentingTheGoods:
+                    identificationNumber: XI123456789120
+                  customsOfficeOfPresentation:
+                    referenceNumber: GB124000
+        required: true
+      responses:
+        '202':
+          description: ''
+          headers: {}
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - title: BoxId
+                    required:
+                      - boxId
+                    type: object
+                    properties:
+                      boxId:
+                        type: string
+                        description: The Push Pull Notifications Service (PPNS) box ID.
+              example:
+                boxId: 50dca3fc-c37c-4f03-b719-63571333624c
+        '400':
+          description: ''
+          headers: {}
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - title: errorResponse
+                    required:
+                      - code
+                    type: object
+                    properties:
+                      code:
+                        type: string
+              examples:
+                invalidJson:
+                  description: The JSON payload does not conform with the JSON schema
+                  value:
+                    code: SCHEMA_ERROR
+                    message: The JSON request was not conformant with the schema. Schematic errors are detailed in the errors property below.
+                    errors:
+                      - code: DATETIME
+                        message: 'declarationDate: 2023-05-17 is an invalid date-time'
+                        path: /declarationDate
+                      - code: MAXLENGTH
+                        message: 'previousDocument[0].previousMRN: may only be 18 characters long'
+                        path: /previousDocument[0]/previousMRN
+      deprecated: false
+      security:
+        - userRestricted:
+            - write:import-control-system-2
+components:
+  securitySchemes:
+    userRestricted:
+      type: oauth2
+      description: |
+        HMRC supports OAuth 2.0 for authenticating user restricted API requests using an OAuth 2.0 Bearer Token in the AUTHORIZATION header.
+        See https://developer.service.hmrc.gov.uk/api-documentation/docs/authorisation/user-restricted-endpoints for details.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.service.hmrc.gov.uk/oauth/authorize
+          tokenUrl: https://api.service.hmrc.gov.uk/oauth/token
+          refreshUrl: https://api.service.hmrc.gov.uk/oauth/refresh
+          scopes:
+            write:import-control-system-2: import-control-system-2
+  schemas:
+    ConsignmentHouseLevelType:
+      title: ConsignmentHouseLevelType
+      required: *ref_10
+      type: object
+      properties: *ref_11
+    ConsignmentMasterLevel:
+      title: ConsignmentMasterLevel
+      required: *ref_12
+      type: object
+      properties: *ref_13
+    DeclarantType:
+      title: DeclarantType
+      required: *ref_14
+      type: object
+      properties: *ref_15
+    ICS2Presentationnotificationversion2.0:
+      title: ICS2Presentationnotificationversion2.0
+      required: *ref_16
+      type: object
+      properties: *ref_17
+      description: Presentation of Goods Notification from Carriers
+    LocationOfGoodsType:
+      title: LocationOfGoodsType
+      required: *ref_18
+      type: object
+      properties: *ref_19
+    PreviousDocument:
+      title: PreviousDocument
+      required: *ref_20
+      type: object
+      properties: *ref_21
+    RepresentativeType:
+      title: RepresentativeType
+      required: *ref_22
+      type: object
+      properties: *ref_23
