@@ -5,14 +5,14 @@ info:
   contact: {}
   version: '2.0'
 servers:
-  - url: https://test-api.service.hmrc.gov.uk/customs/import-control/presentation-of-goods
+  - url: https://test-api.service.hmrc.gov.uk
     description: Sandbox
     variables: {}
-  - url: https://api.service.hmrc.gov.uk/customs/import-control/presentation-of-goods
+  - url: https://api.service.hmrc.gov.uk
     description: Production
     variables: {}
 paths:
-  /:
+  /customs/import-control/presentation-of-goods:
     post:
       tags:
       - import-control-presentation-of-goods-api
